@@ -1,26 +1,12 @@
-% Đọc dữ liệu từ file test_Node
-load('test_Node.mat');
+clc;
+clear;
+run('test_Node.m'); %Chay test_Node.m
 
-% Tính toán chỉ số độ trung tâm giữa
-bc = betweenness_centrality(adjacencyMatrix);
+deleteNode(nodes, 10);
+subplot(2,2,3);
+p2 = plot(G1,'XData',x,'YData',y,'EdgeLabel', G1.Edges.Weight);
+plot(G1,'XData',x,'YData',y,'EdgeLabel', G1.Edges.Weight);
+[T,pred] = minspantree(G1);
+highlight(p2,T,'NodeColor','g','EdgeColor','r','LineWidth',1.5);
+grid on;
 
-% Chọn ngưỡng để xác định backbone
-threshold = 0.2; % Điều chỉnh ngưỡng tùy theo nhu cầu
-
-% Xác định các nút thuộc backbone dựa trên chỉ số độ trung tâm giữa
-backboneNodes = find(bc >= threshold);
-
-% Hiển thị các nút thuộc backbone
-disp('Backbone Nodes:');
-disp(backboneNodes);
-
-% Vẽ đồ thị của backbone mạng
-G = graph(adjacencyMatrix);
-plot(G, 'Layout', 'force', 'MarkerSize', 10, 'NodeColor', 'r', 'EdgeColor', 'k', 'EdgeAlpha', 0.5);
-title('Backbone Network Graph');
-xlabel('X');
-ylabel('Y');
-
-% Đánh dấu các nút thuộc backbone trên đồ thị
-hold on;
-highlight(G, backboneNodes, 'NodeColor', 'g', 'MarkerSize', 15);
