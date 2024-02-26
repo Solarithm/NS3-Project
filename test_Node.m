@@ -1,16 +1,16 @@
 clear;
 n = 15;
-R = 1.5; % Radius in range of sensor Nodes
+R = 15; % Radius in range of sensor Nodes
 
-x = [-1,-0.5,-0.4,0.7,1.5,1.2,1.7,2.2,2.5,3.2,3.0,3.5,3.7,4.2,4.6];
-y = [2,2.7,1.6,2.1,2.75,1.2,1.7,2.8,2.4,2.7,3.4,2.0,3.2,2.4,3.0];
+x = [-10,-5,-4,7,15,12,17,22,25,32,30,35,37,42,46];
+y = [20,27,16,21,27.5,12,17,28,24,27,34,20,32,24,30];
 
-matrix = zeros(15,15);
+matrix = zeros(n,n);
 
-adj_matrix = zeros(15,15);
+adj_matrix = zeros(n,n);
 
-x1 = zeros(1,15);
-y1 = zeros(1,15);
+x1 = zeros(1,n);
+y1 = zeros(1,n);
 
 nodes = Nodes.empty(n, 0); % Khai báo một mảng các đối tượng Nodes
 
@@ -65,24 +65,27 @@ for i = 1 : n
     count = count + 1;
 end
 
+% INITIAL GRAPH
+G = digraph(s, t, distances);
+subplot(2,2,1);
+p = plot(G,'XData',x,'YData',y,'EdgeLabel', G.Edges.Weight);
+grid on;
+title (' INITIAL GRAPH'); % Title of the plot
 
-for i = 1 : 15
-    for j = (i+1) : 15
-        
-    end
-end
-
-G = digraph(s, t);
+%PRIM GRAPH
 G1 = graph(s,t,distances);
-p = plot(G,'XData',x,'YData',y);
-p1 = plot(G1,'XData',x,'YData',y);
+subplot(2,2,2);
+p1 = plot(G1,'XData',x,'YData',y,'EdgeLabel', G1.Edges.Weight);
 [T,pred] = minspantree(G1);
-highlight(p1,T);
-
-% path = shortestpath(p,1,15);
+highlight(p1,T,'NodeColor','g','EdgeColor','r','LineWidth',1.5);
+grid on;
+xlabel (' Length (m)'); % X-label of the output plot
+ylabel (' Width (m)'); % Y-label of the output plot
+title (' PRIM'); % Title of the plot
+% path = shortestpath(G,1,15);
 
 % Packet transmission
-% path2 = shortestpath(p,1,15);
+% path2 = shortestpath(G,1,15);
 
 % check_neighbor
 for i = 1:n
@@ -101,8 +104,3 @@ for i = 1 : n
         end
     end
 end
-
-grid on;
-xlabel (' Length (m)'); % X-label of the output plot
-ylabel (' Width (m)'); % Y-label of the output plot
-title (' Simulator'); % Title of the plot
