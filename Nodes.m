@@ -18,6 +18,9 @@ classdef Nodes
             obj.neighbor = [];
             obj.distance = 0;
         end
+        function nodes = deleteNode(nodes, index)
+            nodes(index) = [];
+        end
         function obj = NodeswEnergy(x, y, energyInitial)
             obj.x = x;
             obj.y = y;
