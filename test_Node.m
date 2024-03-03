@@ -11,9 +11,14 @@ adj_matrix = zeros(n,n);
 
 x1 = zeros(1,n);
 y1 = zeros(1,n);
+<<<<<<< HEAD
+=======
 
-nodes = Nodes.empty(n, 0); % Khai báo một mảng các đối tượng Nodes
+nodes = Nodes.empty(n, 0); % Khai bÃ¡o má»™t máº£ng cÃ¡c Ä‘á»‘i tÆ°á»£ng Nodes
+>>>>>>> d4d18fed9c4ee55cc3cdf281af2d02ac92d5d130
 
+global nodes
+nodes = Node.empty(n, 0);
 s = [];
 t = [];
 
@@ -24,9 +29,9 @@ plot(x, y, 'mo',... % Plot all the nodes in 2 dimension
     'MarkerSize',10)
 hold on
 numEdges = 0;
-distances = [];
+
 for i = 1 : n
-    nodes(i) = Nodes(x(i), y(i)); % Khởi tạo đối tượng Nodes và thêm vào mảng
+    nodes(i) = Node(x(i), y(i));
     for j = 1 : n
         distance = sqrt((x(i) - x(j))^2 + (y(i) - y(j))^2);
         matrix(i,j) = distance;
@@ -35,25 +40,25 @@ for i = 1 : n
         elseif (i ~= j && distance < R) 
             adj_matrix(i,j) = 1;
             numEdges = numEdges + 1;
-
         else
             adj_matrix(i,j) = inf;
         end
     end
 end
 
-weight = 0
+distances = [];
+linkQuality = [];
+weight = 0;
 for i = 1 : n
     for j = (i+1) : n 
         if matrix(i,j) < R
             weight = weight + 1;
-            distances(weight) = matrix(i,j)
+            distances(weight) = matrix(i,j);
+            linkQuality(weight) = (nodes(i).eR*nodes(j).eR)/distances(weight);
         end
     end
 end
 
-
-numEdges = numEdges/2;
 count = 2;
 for i = 1 : n
     for j = count : n
@@ -72,6 +77,8 @@ p = plot(G,'XData',x,'YData',y,'EdgeLabel', G.Edges.Weight);
 grid on;
 title (' INITIAL GRAPH'); % Title of the plot
 
+<<<<<<< HEAD
+=======
 %PRIM GRAPH
 G1 = graph(s,t,distances);
 subplot(2,2,2);
@@ -87,6 +94,7 @@ title (' PRIM'); % Title of the plot
 % Packet transmission
 % path2 = shortestpath(G,1,15);
 
+>>>>>>> d4d18fed9c4ee55cc3cdf281af2d02ac92d5d130
 % check_neighbor
 for i = 1:n
     array_index = find(s == i);
@@ -104,3 +112,26 @@ for i = 1 : n
         end
     end
 end
+<<<<<<< HEAD
+
+
+
+% INITIAL GRAPH
+G = digraph(s, t, linkQuality);
+subplot(2,2,1);
+p = plot(G,'XData',x,'YData',y,'EdgeLabel', G.Edges.Weight);
+grid on;
+title (' INITIAL GRAPH'); % Title of the plot
+
+%PRIM GRAPH
+G1 = graph(s,t,linkQuality);
+subplot(2,2,2);
+p1 = plot(G1,'XData',x,'YData',y,'EdgeLabel', G1.Edges.Weight);
+[T,pred] = minspantree(G1);
+highlight(p1,T,'NodeColor','g','EdgeColor','r','LineWidth',1.5);
+grid on;
+xlabel (' Length (m)'); % X-l-abel of the output plot
+ylabel (' Width (m)'); % Y-label of the output plot
+title (' PRIM'); % Title of the plot
+=======
+>>>>>>> d4d18fed9c4ee55cc3cdf281af2d02ac92d5d130
