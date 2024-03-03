@@ -11,11 +11,10 @@ adj_matrix = zeros(n,n);
 
 x1 = zeros(1,n);
 y1 = zeros(1,n);
-<<<<<<< HEAD
-=======
+
 
 nodes = Nodes.empty(n, 0); % Khai bÃ¡o má»™t máº£ng cÃ¡c Ä‘á»‘i tÆ°á»£ng Nodes
->>>>>>> d4d18fed9c4ee55cc3cdf281af2d02ac92d5d130
+
 
 global nodes
 nodes = Node.empty(n, 0);
@@ -77,8 +76,7 @@ p = plot(G,'XData',x,'YData',y,'EdgeLabel', G.Edges.Weight);
 grid on;
 title (' INITIAL GRAPH'); % Title of the plot
 
-<<<<<<< HEAD
-=======
+
 %PRIM GRAPH
 G1 = graph(s,t,distances);
 subplot(2,2,2);
@@ -94,7 +92,6 @@ title (' PRIM'); % Title of the plot
 % Packet transmission
 % path2 = shortestpath(G,1,15);
 
->>>>>>> d4d18fed9c4ee55cc3cdf281af2d02ac92d5d130
 % check_neighbor
 for i = 1:n
     array_index = find(s == i);
@@ -112,7 +109,7 @@ for i = 1 : n
         end
     end
 end
-<<<<<<< HEAD
+
 
 
 
@@ -133,5 +130,5 @@ grid on;
 xlabel (' Length (m)'); % X-l-abel of the output plot
 ylabel (' Width (m)'); % Y-label of the output plot
 title (' PRIM'); % Title of the plot
-=======
->>>>>>> d4d18fed9c4ee55cc3cdf281af2d02ac92d5d130
+
+
