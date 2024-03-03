@@ -12,10 +12,6 @@ adj_matrix = zeros(n,n);
 x1 = zeros(1,n);
 y1 = zeros(1,n);
 
-
-nodes = Nodes.empty(n, 0); % Khai bÃ¡o má»™t máº£ng cÃ¡c Ä‘á»‘i tÆ°á»£ng Nodes
-
-
 global nodes
 nodes = Node.empty(n, 0);
 s = [];
@@ -130,5 +126,4 @@ grid on;
 xlabel (' Length (m)'); % X-l-abel of the output plot
 ylabel (' Width (m)'); % Y-label of the output plot
 title (' PRIM'); % Title of the plot
-
 
