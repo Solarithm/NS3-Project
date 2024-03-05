@@ -20,7 +20,6 @@ nodes = Node.empty(n, 0);
 for i = 1 : n
     nodes(i) = Node(x(i), y(i));
 end
-
 s = [];
 t = [];
 
@@ -29,7 +28,7 @@ timeStart = 1;
 timeEnd = 100;
 clf;
 for timeStep = timeStart : timeEnd
-
+    
     [s, t] = Neighbor(nodes);
     Distance(nodes);
     %% Graph    
