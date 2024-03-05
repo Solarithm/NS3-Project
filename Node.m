@@ -35,8 +35,9 @@ classdef Node < handle
                 end              
             end
         end
+
         function change_energy_Rx(obj)
-                obj.E_rx = obj.B*obj.Elec;
+            obj.E_rx = obj.B*obj.Elec;
         end
     end
 end
