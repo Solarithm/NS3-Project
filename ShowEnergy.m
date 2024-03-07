@@ -2,10 +2,8 @@ function ShowEnergy(x, y, nodes)
 
     n = 15; 
     x1 = zeros(1,n);
-    y1 = zeros(1,n);
-    
+    y1 = zeros(1,n);    
     str = {};
-    str1 = {};
     
     for i = 1:n
         x1(i) = x(i) + 0.7;

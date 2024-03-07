@@ -27,12 +27,12 @@ classdef Node < handle
             node.y = y;
         end
 
-        function change_energy_Tx(obj)
-            for i = 1 : length(obj.neighbor)
-                if(obj.distance(i) < obj.d0)
-                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.distance(i)^2));
+        function change_energy_Tx(node)
+            for i = 1 : length(node.neighbor)
+                if(node.distance(i) < node.d0)
+                     node.E_tx(i) = (node.B * node.Elec) + (node.B * node.Efs * (node.distance(i)^2));
                 else
-                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.distance(i)^4));
+                     node.E_tx(i) = (node.B * node.Elec) + (node.B * node.Efs * (node.distance(i)^4));
                 end              
             end
         end

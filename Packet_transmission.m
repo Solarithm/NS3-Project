@@ -5,15 +5,12 @@ function [px, py] = Packet_transmission(sensor_node, nodes)
     px(1) = nodes(sensor_node).x;
     py(1) = nodes(sensor_node).y;
     iter = 2;
-    while(parent_1 ~= 0)
-        
+    while(parent_1 ~= 0)      
         nodes(sensor_node).change_energy_Tx();
-
         for i = 1:length(nodes(sensor_node).neighbor)
             %Check energy Tx
             if(parent_1 == nodes(sensor_node).neighbor(i))
-                nodes(sensor_node).E_initial = nodes(sensor_node).E_initial - nodes(sensor_node).E_tx(i); 
-                
+                nodes(sensor_node).E_initial = nodes(sensor_node).E_initial - nodes(sensor_node).E_tx(i);                
             end
         end
         %Check_energy_parent Tx and Rx
@@ -33,5 +30,15 @@ function [px, py] = Packet_transmission(sensor_node, nodes)
               break;
         end
         parent_1 = nodes(parent_1).parent;
-    end    
+    end 
+    
+    %% Draw transmission line
+    for i = 1 : length(px) - 1
+        h = line([px(i), px(i+1)], [py(i), py(i+1)]);
+        h.LineStyle = '-';
+        h.LineWidth = 2;
+        h.Color = [0 0 1];
+        pause(0.5);        
+        drawnow;
+    end  
 end

@@ -32,25 +32,13 @@ linkEdge =  GetLinkEdge(nodes);
 figure = plot(G, 'XData', x, 'YData', y, 'EdgeLabel', linkEdge);
 
 %% Prim_global
-MST_global = Prim(1, 15, nodes);
-for i = 1 : size(MST_global,1)
-    x1 = x(MST_global(i, 1));
-    y1 = y(MST_global(i, 1));
-    x2 = x(MST_global(i, 2));
-    y2 = y(MST_global(i, 2));
-    h = line([x1, x2], [y1, y2]);
-    h.LineStyle = '-';
-    h.LineWidth = 2;
-    h.Color = [0 1 0];
-    pause(0.2);
-end
+MST_global = Prim(1, length(nodes), nodes);
 
  %% Simulation
 timeStart = 1;
 timeEnd = 100;
-clf;
-for timeStep = timeStart : timeEnd
-    
+
+for timeStep = timeStart : timeEnd    
     for i = 1 : length(nodes)      
         nodes(i).d0 = sqrt(nodes(i).Efs/nodes(i).Emp);
         for j = 1 : length(nodes(i).neighbor)
@@ -60,29 +48,20 @@ for timeStep = timeStart : timeEnd
     end
     
     Parent(MST_global, nodes);
-    
+
+    clf;
     figure = plot(G, 'XData', x, 'YData', y, 'EdgeLabel', linkEdge);
     figure.NodeColor = 'r';
+    
     
     %% Show Energy
     ShowEnergy(x,y,nodes);     
     grid on;
-    sensorNode = 10;
     
     %% Transmission
-    [px, py] = Packet_transmission(sensorNode, nodes); 
-    for i = 1 : length(px) - 1
-        x1 = px(i);
-        y1 = py(i);
-        x2 = px(i+1);
-        y2 = py(i+1);
-        h = line([x1, x2], [y1, y2]);
-        h.LineStyle = '-';
-        h.LineWidth = 2;
-        h.Color = [0 0 1];
-        pause(0.5);        
-        drawnow;
-    end  
+    sensorNode = 10;
+    Packet_transmission(sensorNode, nodes); 
+    
     deadNode = 4;
     DisconnectedNode(nodes, deadNode);
     pause(0.1);    

@@ -29,5 +29,12 @@ function MST = Prim (startNode, endNode, nodes)
         MST(edgeCount, :) = [u, v];
     end
     
-    
+    %% Draw Prim line
+    for i = 1 : size(MST,1)
+        h = line([nodes(MST(i, 1)).x, nodes(MST(i, 2)).x], [nodes(MST(i, 1)).y, nodes(MST(i, 2)).y]);
+        h.LineStyle = '-';
+        h.LineWidth = 2;
+        h.Color = [0 1 0];
+        pause(0.2);
+    end
 end
