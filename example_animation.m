@@ -1,28 +1,20 @@
-% Define the range of x values
-x = linspace(0, 2*pi, 100);
+% Tạo GUI
+fig = uifigure('Name', 'Thông số', 'Position', [100 100 300 200]);
 
-% Create a figure
-figure;
+% Tạo một đối tượng Static Text
+txt = uilabel(fig, 'Position', [20 150 300 30], 'Text', 'Dữ liệu:');
 
-% Start a loop for animation
-for t = 1:100
-    % Generate y values based on time t
-    y = sin(x + t/10);
+% Tạo một biến để lưu trữ dữ liệu
+data = 0;
+
+% Cập nhật dữ liệu và hiển thị trên giao diện
+for i = 1:10
+    % Giả định bạn có một hàm hoặc quy trình để cập nhật dữ liệu
+    data = data + rand();
     
-    % Plot the data
-    plot(x, y);
+    % Cập nhật nội dung của đối tượng Static Text
+    txt.Text = sprintf('Dữ liệu: %.2f', data);
     
-    % Set axis limits
-    xlim([0, 4*pi]);
-    ylim([-2, 2]);
-    
-    % Add title and labels
-    title('Sine Wave Animation');
-    xlabel('x');
-    ylabel('sin(x + t)');
-    
-    % Pause for a short duration to create animation effect
-    pause(0.05);
-    % If you want to capture frames for a video, you can use getframe function
-    % frames(t) = getframe(gcf);
+    % Dừng một chút để quan sát
+    pause(1);
 end

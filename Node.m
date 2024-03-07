@@ -2,7 +2,7 @@ classdef Node < handle
     properties
         x;
         y;
-        R;
+        radious;
         E_initial = 2;
         E_tx;
         E_rx;
@@ -19,6 +19,7 @@ classdef Node < handle
         parent;
         child;
         link = []; %connection to node neighbor
+        status = 1; % 1 is Live, 0 is Dead
     end  
     methods
         function node = Node(x, y)

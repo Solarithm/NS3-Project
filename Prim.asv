@@ -27,9 +27,6 @@ function MST = Prim (start_point, end_point, nodes)
         visted(v) = true ;
         edge_count = edge_count + 1;
         MST(edge_count, :) = [u, v];
-    end
-    
-    for iterMST = 1 : size(MST, 1)
         
     end
 end
