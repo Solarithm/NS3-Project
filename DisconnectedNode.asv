@@ -1,5 +1,0 @@
-function DisconnectedNode(nodes, node)
-    for i = 1 : length(nodes)
-        
-    end
-end
