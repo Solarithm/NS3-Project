@@ -1,4 +1,4 @@
-function Energy(x, y, nodes)
+function ShowEnergy(x, y, nodes)
 
     n = 15; 
     x1 = zeros(1,n);

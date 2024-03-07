@@ -2,7 +2,7 @@ classdef Node < handle
     properties
         x;
         y;
-        R;
+        radious;
         E_initial = 2;
         E_tx;
         E_rx;
@@ -19,6 +19,7 @@ classdef Node < handle
         parent;
         child;
         link = []; %connection to node neighbor
+        status = 3; %live node. If dead, status = 0 
     end  
     methods
         function node = Node(x, y)
@@ -27,17 +28,21 @@ classdef Node < handle
         end
 
         function change_energy_Tx(obj)
-            for i = length(obj.neighbor)
+            for i = 1 : length(obj.neighbor)
                 if(obj.distance(i) < obj.d0)
-                     obj.E_tx = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.distance(i)^2));
+                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.distance(i)^2));
                 else
-                     obj.E_tx = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.distance(i)^4));
+                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.distance(i)^4));
                 end              
             end
         end
 
         function change_energy_Rx(obj)
             obj.E_rx = obj.B*obj.Elec;
+        end
+        
+        function update_routing(obj, node_critical) 
+            
         end
     end
 end

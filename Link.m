@@ -1,12 +1,10 @@
 function Link(nodes)
-    for i = 1 : length(nodes)
-        for j = 1 : length(nodes(i).neighbor)
-            if (nodes(i).E_initial > 0)
-                nodes(i).link(j) = nodes(i).E_initial * exp(-nodes(i).distance(j));
-            else
-                DisconnectedNode(nodes, nodes(i));
+    for iterNode = 1 : length(nodes)
+        for iterNeighbor = 1 : length(nodes(iterNode).neighbor)
+            nodes(iterNode).link(iterNeighbor) = nodes(iterNode).E_initial * exp(-nodes(iterNode).distance(iterNeighbor));
+            if(nodes(iterNode).link(length(iterNeighbor)) == 0)
+                DisconnectedNode(nodes(iterNode));
             end
-            
         end
     end
 end

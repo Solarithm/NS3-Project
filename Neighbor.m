@@ -22,5 +22,5 @@ function [s, t] = Neighbor(nodes)
         end
         count = count + 1;
     end
-
+    Distance(nodes);
 end
