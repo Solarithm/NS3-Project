@@ -1,7 +1,10 @@
 function MST = Prim (startNode, endNode, nodes)
-    numNode = endNode - startNode + 1;
+    numNode = endNode - startNode + 1 - 1;
     visited = true(1,15);
     for i = startNode : endNode  
+%         if (i == dead_node)
+%             continue;
+%         end
         visited(1, i) = false;
     end
     MST = zeros(numNode - 1,2);   
@@ -14,6 +17,9 @@ function MST = Prim (startNode, endNode, nodes)
         u = 0;
         v = 0;
         for i = startNode:endNode
+%             if (i == dead_node)
+%                 continue;
+%             end
             if(visited(i))
                 for j = 1:length(nodes(i).neighbor)
                     if(~visited(nodes(i).neighbor(j)) && nodes(i).link(j) > max)
