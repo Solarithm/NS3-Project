@@ -12,7 +12,7 @@ function MST = Prim(nodes)
             nodes(i).parent = [];
             nodes(i).child = [];
             dead(cnt_dead) = nodes(i).ID;
-            cnt_dead = cnt_dead + 1;
+            cnt_dead
         end     
     end
     
@@ -23,17 +23,14 @@ function MST = Prim(nodes)
     MST = zeros(numNode - 1, 2);   
     edgeCount = 0;
     
-    % Dead -> visisted
-    for i = 1 : length(dead)
-        visited(dead(i)) = true;
-    end
+    for i 
 
     % Bắt đầu với nút đầu tiên
     visited(1) = true;
     
 
     %Vong lap quet den khi tat cac diem duoc quet ==> bang true
-    while(edgeCount < numNode - cnt_dead)
+    while(edgeCount < numNode - 1)
         max = 0;
         u = 0;
         v = 0;
@@ -54,7 +51,7 @@ function MST = Prim(nodes)
     end
     
     % Vẽ các cạnh của cây tìm kiếm nhỏ nhất
-    for i = 1 : (numNode - cnt_dead)
+    for i = 1:size(MST, 1)
         h = line([nodes(MST(i, 1)).x, nodes(MST(i, 2)).x], [nodes(MST(i, 1)).y, nodes(MST(i, 2)).y]);
         h.LineStyle = '-';
         h.LineWidth = 2;

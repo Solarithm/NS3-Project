@@ -41,8 +41,5 @@ classdef Node < handle
             obj.E_rx = obj.B*obj.Elec;
         end
         
-        function update_routing(obj, node_critical) 
-            
-        end
     end
 end

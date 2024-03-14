@@ -1,5 +1,5 @@
 function [s, t] = Neighbor(nodes)
-    adj_matrix = Adj_Matrix(nodes);
+    adj_matrix = AdjMatrix(nodes);
     for i = 1 : length(nodes)
         neighborCount = 0;
         for j = 1 : length(nodes)
@@ -24,3 +24,4 @@ function [s, t] = Neighbor(nodes)
     end
     Distance(nodes);
 end
+

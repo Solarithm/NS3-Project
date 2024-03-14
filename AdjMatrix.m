@@ -1,4 +1,4 @@
-function adj_matrix = Adj_Matrix(nodes)
+function adj_matrix = AdjMatrix(nodes)
     adj_matrix = zeros(length(nodes), length(nodes));    
     for i = 1 : length(nodes)
         for j = 1 : length(nodes)
@@ -6,7 +6,7 @@ function adj_matrix = Adj_Matrix(nodes)
                           + (nodes(i).y - nodes(j).y)^2);
             if (i == j)
                 adj_matrix(i,j) = 0;
-            elseif (i~=j && distance < 11) 
+            elseif (i~=j && distance < nodes(i).radious && nodes(i).status > 0) 
                 adj_matrix(i,j) = 1;
             else
                 adj_matrix(i,j) = inf;

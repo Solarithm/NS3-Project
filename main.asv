@@ -69,15 +69,14 @@ for timeStep = timeStart : timeEnd
         G = digraph(s, t);
         figure = plot(G, 'XData', x, 'YData', y);
         figure.NodeColor = 'r';
-        MST_global = Prim(nodes);
+        Prim(nodes);
         Parent(MST_global, nodes);
         timeStep = timeStep + 1;
     end
-    %path = PathFromPrim(10, MST_global);
-    if (timeStep == 2)
-        deadNode = 4;
-        DisconnectedNode(nodes, deadNode);
-    end
+
+    deadNode = 4;
+    DisconnectedNode(nodes, deadNode);
+    
     pause(0.1);    
 end
 
