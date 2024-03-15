@@ -78,8 +78,12 @@ for timeStep = timeStart : timeEnd
         deadNode = 4;
         DisconnectedNode(nodes, deadNode);
     end
+    if (timeStep == 5)
+        deadNode = 9;
+        DisconnectedNode(nodes, deadNode);
+    end
     pause(0.1);    
-end
+ end
 
 
 
