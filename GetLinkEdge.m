@@ -1,6 +1,5 @@
 function linkEdge = GetLinkEdge(nodes)
     Link(nodes);
-    
     link_matrix = zeros(length(nodes), length(nodes));
     for i = 1 : length(nodes)
         for j = 1 : length(nodes(i).neighbor)
