@@ -31,30 +31,10 @@ classdef Node < handle
             node.routingTable = struct('Destination', {}, 'NextHop', {}, 'Cost', {});
         end
         % Delete node
-        function DeleteNodesFromNeighbor(nodes, node_id)
-            for i = 1 : length(nodes)
-                for j = 1 : length(nodes(i).neighbor)
-                    if nodes(i).neighbor(j) == node_id
-                        nodes(i).neighbor(j) = [];
-                        break;
-                    end           
-                end
-                if nodes(i).child == node_id
-                    nodes(i).child = [];
-                end
-
-                if nodes(i).parent == node_id
-                    nodes(i).parent = [];
-                end
-            end 
-        end
-        
         function DisconnectedNode(nodes, node_id)
-            nodes(node_id).status = 0;
-            nodes(node_id).E_initial = 0;
-            DeleteNodesFromNeighbor(nodes, node_id);
+            nodes(node).status = 0;
+            nodes(node).E_initial = 0;
         end
-        
         function Distance(nodes)
             for i = 1 : length(nodes)
                 for j = 1 : length(nodes(i).neighbor)
