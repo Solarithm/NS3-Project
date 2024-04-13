@@ -9,36 +9,22 @@ classdef AODV
         end
         
         function route_discovery(network, source, destination)
-            visited = false(1, length(network.nodes));
-            queue = source;
-            path = cell(1, length(network.nodes));
-            while ~isempty(queue)
-                node = queue(1);
-                queue(1) = [];
-                visited(node) = true;
-                if node == destination
-                    % Path found
-                    disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
-                    % Update routing tables along the path
-                    next_hop = path{destination}(1);
-                    network.nodes(source).add_route(destination, next_hop, 1);
-                    for i = 2:length(path{destination})
-                        curr_node = path{destination}(i-1);
-                        prev_node = path{destination}(i);
-                        network.update_routing_table(prev_node, curr_node, destination);
-                    end
-                    return;
-                end
-                neighbors = network.nodes(node).neighbor;
-                for i = 1:length(neighbors)
-                    neighbor = neighbors(i);
-                    if ~visited(neighbor)
-                        queue = [queue, neighbor];
-                        path{neighbor} = [path{node}, neighbor];
-                    end
-                end
+            path = findShortestPath(network.nodes, source, destination);
+            % Path found
+            disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
+            % Update routing tables along the path
+            for i = 2:length(path)
+                curr_node = path(i-1);
+                prev_node = path(i);
+                network.update_routing_table(prev_node, curr_node, destination);
+                % Plot routing line
+                h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
+                h.LineStyle = '-';
+                h.LineWidth = 2;
+                h.Color = [0 1 1];
+                pause(0.2);        
+                drawnow;
             end
-            disp(['Route from Node ', num2str(source), ' to Node ', num2str(destination), ' not found']);
         end
 
         function update_routing_table(network, prev_node, curr_node, destination)

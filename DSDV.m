@@ -9,36 +9,15 @@ classdef DSDV
         end
         
         function route_discovery(network, source, destination)
-            visited = false(1, length(network.nodes));
-            queue = source;
-            path = cell(1, length(network.nodes));
-            while ~isempty(queue)
-                node = queue(1);
-                queue(1) = [];
-                visited(node) = true;
-                if node == destination
-                    % Path found
-                    disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
-                    % Update routing tables along the path
-                    next_hop = path{destination}(1);
-                    network.nodes(source).add_route(destination, next_hop, 1);
-                    for i = 2:length(path{destination})
-                        curr_node = path{destination}(i-1);
-                        prev_node = path{destination}(i);
-                        network.update_routing_table(prev_node, curr_node, destination);
-                    end
-                    return;
-                end
-                neighbors = network.nodes(node).neighbor;
-                for i = 1:length(neighbors)
-                    neighbor = neighbors(i);
-                    if ~visited(neighbor)
-                        queue = [queue, neighbor];
-                        path{neighbor} = [path{node}, neighbor];
-                    end
-                end
+            path = findShortestPath(network.nodes, source, destination);
+            % Path found
+            disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
+            % Update routing tables along the path
+            for i = 2:length(path)
+                curr_node = path(i-1);
+                prev_node = path(i);
+                network.update_routing_table(prev_node, curr_node, destination);
             end
-            disp(['Route from Node ', num2str(source), ' to Node ', num2str(destination), ' not found']);
         end
 
         function update_routing_table(network, prev_node, curr_node, destination)
@@ -57,8 +36,18 @@ classdef DSDV
                 network.nodes(curr_node).add_route(destination, next_hop, cost);
             end
         end
-
-
+        
+        function init_DSDV_routing(network)
+            fprintf('START DSDV ROUTING... \n');
+            for i = 1 : length(network.nodes)
+                for j = 1 : 1 : length(network.nodes)
+                    if i ~= j
+                        route_discovery(network, i, j);
+                    end
+                end
+            end
+        end
+        
         function route_maintenance(network, node)
             disp(['Performing route maintenance at Node ', num2str(node)]);
             %.......
