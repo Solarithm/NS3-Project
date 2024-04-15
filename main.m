@@ -26,15 +26,12 @@ end
 [s, t] = Neighbor(nodes);
 G = graph(s, t);
 figure = plot(G, 'XData', x, 'YData', y);
-ShowEnergy(nodes);
+plot_energy_info(nodes);
 
  %% Simulation
 %Add aodv routing protocol, use when node i want to send packets to BST
 BST = 1;
 network = AODV(nodes);
-route_discovery(network, 10, BST);
-route_discovery(network, 12, BST);
-route_discovery(network, 15, BST);
 
 %Add dsdv routing protocol, routing table is created when start networking
 % network = DSDV(nodes);
@@ -42,10 +39,11 @@ route_discovery(network, 15, BST);
 timeStart = 1;
 timeEnd = 100;
 
-for timeStep = timeStart : timeEnd    
-    PacketTransmission(10, BST, nodes);
-    PacketTransmission(12, BST, nodes);
-    PacketTransmission(15, BST, nodes);
+for timeStep = timeStart : timeEnd
+    
+    PacketTransmission(10, BST, network);
+    plot_energy_info(nodes);
+    
     pause(0.1);    
 end
 

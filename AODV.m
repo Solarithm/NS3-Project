@@ -13,6 +13,7 @@ classdef AODV
             % Path found
             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
+            arr_line = [];
             for i = 2:length(path)
                 curr_node = path(i-1);
                 prev_node = path(i);
@@ -22,11 +23,22 @@ classdef AODV
                 h.LineStyle = '-';
                 h.LineWidth = 2;
                 h.Color = [0 1 1];
-                pause(0.2);        
+                arr_line(end+1) = h; % Store handle to the line object
+                pause(0.2);
                 drawnow;
             end
+            % Draw back with a different color
+            for i = length(arr_line):-1:1
+                set(arr_line(i), 'Color', [1 0 0]); % Set color using 'set' function
+                pause(0.2);
+                drawnow;
+            end
+            % Clear the previous lines
+            for i = 1:numel(arr_line)
+                delete(arr_line(i)); % Delete the line object
+            end        
         end
-
+        
         function update_routing_table(network, prev_node, curr_node, destination)
             next_hop = prev_node;
             cost = 1; % Assuming uniform cost for simplicity
@@ -53,8 +65,7 @@ classdef AODV
             if ~isempty(network.nodes(node_id).routingTable)
                 network.nodes(node_id).display_routing_table();
             else
-                disp(['Routing table for Node 4: ']);
-                disp(['       No information of routing table. Please do route discovery! ']);
+                fprintf(' NO INFORMATION OF NODE %d ROUTING TABLE', node_id);
             end
         end
     end

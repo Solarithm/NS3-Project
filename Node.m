@@ -141,17 +141,32 @@ classdef Node < handle
         function change_energy_Rx(obj)
             obj.E_rx = obj.B*obj.Elec;
         end   
-        function ShowEnergy(nodes)
-            n = 15; 
-            x1 = zeros(1,n);
-            y1 = zeros(1,n);    
-            str = {};    
+        %Energy information on figure 
+        function plot_energy_info(nodes)
+            persistent prev_text_handles; % Persistent variable to store previous text handles
+            n = numel(nodes); 
+            x = zeros(1, n);
+            y = zeros(1, n);
+            str = cell(1, n);    
+            % Get nodes' positions and energy information
             for i = 1:n
-                x1(i) = nodes(i).x + 0.7;
-                y1(i) = nodes(i).y + 0.7;
+                x(i) = nodes(i).x;
+                y(i) = nodes(i).y;
                 str{i} = num2str(nodes(i).E_initial);
-                  text(x1(i), y1(i), str{i});
             end 
+            % Delete previous energy information if handles are valid
+            if ~isempty(prev_text_handles) && all(ishandle(prev_text_handles))
+                delete(prev_text_handles);
+            end
+            % Plot energy information text
+            text_handles = zeros(1, n);
+            for i = 1:n
+                text_handles(i) = text(x(i) + 0.7, y(i) + 0.7, str{i});
+            end 
+            % Store current text handles for future deletion
+            prev_text_handles = text_handles;
+            hold off;
         end
+
     end
 end
