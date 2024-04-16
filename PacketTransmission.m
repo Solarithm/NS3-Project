@@ -15,7 +15,7 @@ function PacketTransmission(source, destination, network)
         des_idx = find(idex_arr == destination);
         next_hop = network.nodes(source).routingTable(des_idx).NextHop;
         change_energy_Tx(network.nodes(source));
-        if(network.nodes(next_hop).E_initial > network.nodes(next_hop).critical_level) % routing to node's energy > critcal level
+        if(network.nodes(next_hop).E_initial > network.nodes(next_hop).critical_level) % transmission to node's energy > critcal level
             idx = find(network.nodes(source).neighbor == next_hop);
             network.nodes(source).E_initial = network.nodes(source).E_initial - network.nodes(source).E_tx(idx);                
             change_energy_Rx(network.nodes(next_hop));

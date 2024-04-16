@@ -17,25 +17,27 @@ classdef AODV
             for i = 2:length(path)
                 curr_node = path(i-1);
                 prev_node = path(i);
-                destination_found = any([network.nodes(curr_node).routingTable.Destination] == destination);
-                if ~destination_found
-                    energy_RREQ(network.nodes(curr_node));     
-                    energy_RREP(network.nodes(prev_node));
-                    idx = find(network.nodes(curr_node).neighbor == prev_node);
-                    network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx); 
-                    network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx;               
-                    network.update_routing_table(prev_node, curr_node, destination);
-                    % Plot routing line
-                    h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
-                    h.LineStyle = '-';
-                    h.LineWidth = 2;
-                    h.Color = [0 1 1];
-                    arr_line(end+1) = h; % Store handle to the line object
-                    h.HandleVisibility = 'off';
-                    plot_energy_info(network.nodes);
-                    pause(0.2);
-                    drawnow;
-                end        
+                
+                if s
+                    
+                end
+                
+                energy_RREQ(network.nodes(curr_node));     
+                energy_RREP(network.nodes(prev_node));
+                idx = find(network.nodes(curr_node).neighbor == prev_node);
+                network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx); 
+                network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx;               
+                network.update_routing_table(prev_node, curr_node, destination);
+                % Plot routing line
+                h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
+                h.LineStyle = '-';
+                h.LineWidth = 2;
+                h.Color = [0 1 1];
+                arr_line(end+1) = h; % Store handle to the line object
+                h.HandleVisibility = 'off';
+                plot_energy_info(network.nodes);
+                pause(0.2);
+                drawnow;
             end
             % Draw back with a different color
             for i = length(arr_line):-1:1

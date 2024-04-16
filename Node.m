@@ -151,12 +151,12 @@ classdef Node < handle
 %             Eamp = 100 * 0.000000000001; %J
             Efs = 10 * 0.000000000001; % J/bit/m^2
             Emp = 0.0013 * 0.000000000001; %J/bit/m^4
-            B2 = Broadcast_size * 1024;
+            B = Broadcast_size * 1024;
             for i = 1 : length(node.neighbor)
                 if(node.distance(i) < node.d0)
-                     node.E_tx(i) = (B2 * Elec) + (B2 * Emp * (node.distance(i)^2));
+                     node.E_tx(i) = (B * Elec) + (B * Emp * (node.distance(i)^2));
                 else
-                     node.E_tx(i) = (B2 * Elec) + (B2 * Efs * (node.distance(i)^4));
+                     node.E_tx(i) = (B * Elec) + (B * Efs * (node.distance(i)^4));
                 end              
             end
         end
