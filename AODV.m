@@ -16,7 +16,7 @@ classdef AODV
             arr_line = [];
             for i = 2:length(path)
                 curr_node = path(i-1);
-                energy_RREQ(network.nodes(curr_node));
+                energy_RREQ(network.nodes(  curr_node));
                 prev_node = path(i);
                 energy_RREQ(network.nodes(prev_node));
                 network.update_routing_table(prev_node, curr_node, destination);
