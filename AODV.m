@@ -16,7 +16,9 @@ classdef AODV
             arr_line = [];
             for i = 2:length(path)
                 curr_node = path(i-1);
+                energy_RREQ(network.nodes(curr_node));
                 prev_node = path(i);
+                energy_RREQ(network.nodes(prev_node));
                 network.update_routing_table(prev_node, curr_node, destination);
                 % Plot routing line
                 h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
@@ -24,7 +26,8 @@ classdef AODV
                 h.LineWidth = 2;
                 h.Color = [0 1 1];
                 arr_line(end+1) = h; % Store handle to the line object
-                h.HandleVisibility = 'off'
+                h.HandleVisibility = 'off';
+                plot_energy_info(network.nodes);
                 pause(0.2);
                 drawnow;
             end

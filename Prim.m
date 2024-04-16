@@ -1,8 +1,5 @@
 function MST = Prim(nodes) 
-
     numNode = length(nodes);
-    
-    % Xóa các liên kết đến nút bị xóa và cập nhật trạng thái visited
     dead = [];
     cnt_dead = 1;
     for i = 1:numNode
@@ -15,24 +12,13 @@ function MST = Prim(nodes)
             cnt_dead = cnt_dead + 1;
         end     
     end
-    
-    % Khởi tạo visited với tất cả các nút chưa được duyệt
     visited = false(1, numNode); 
-    
-    % Lưu trữ các cạnh của cây tìm kiếm nhỏ nhất
     MST = zeros(numNode - 1, 2);   
     edgeCount = 0;
-    
-    % Dead -> visisted
     for i = 1 : length(dead)
         visited(dead(i)) = true;
     end
-
-    % Bắt đầu với nút đầu tiên
-    visited(1) = true;
-    
-
-    %Vong lap quet den khi tat cac diem duoc quet ==> bang true
+    visited(1) = true;  
     while(edgeCount < numNode - cnt_dead)
         max = 0;
         u = 0;
@@ -52,8 +38,7 @@ function MST = Prim(nodes)
         edgeCount = edgeCount + 1;
         MST(edgeCount, :) = [u, v];
     end
-    
-    % Vẽ các cạnh của cây tìm kiếm nhỏ nhất
+
     for i = 1 : (numNode - cnt_dead)
         h = line([nodes(MST(i, 1)).x, nodes(MST(i, 2)).x], [nodes(MST(i, 1)).y, nodes(MST(i, 2)).y]);
         h.LineStyle = '-';

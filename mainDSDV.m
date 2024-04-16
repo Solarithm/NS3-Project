@@ -1,4 +1,3 @@
-%%
 cla;
 clf;
 clc;
@@ -40,26 +39,16 @@ plot_energy_info(nodes);
 
 
  %% Simulation
-%Add aodv routing protocol, use when node i want to send packets to BST
-BST = 1;
-network = AODV(nodes);
-
-%Add dsdv routing protocol, routing table is created when start networking
-% network = DSDV(nodes);
-% init_DSDV_routing(network);
+% Add dsdv routing protocol, routing table is created when start networking
+network = DSDV(nodes);
+init_DSDV_routing(network);
 timeStart = 1;
 timeEnd = 100;
-
+BST = 1;
 for timeStep = timeStart : timeEnd
-    
     PacketTransmission(10, BST, network);
     PacketTransmission(12, BST, network);
     PacketTransmission(15, BST, network);
     
     pause(0.1);    
 end
-
-
-
- 
-

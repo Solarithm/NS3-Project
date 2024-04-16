@@ -48,8 +48,9 @@ classdef DSDV
             end
         end
         
-        function route_maintenance(network, node)
-            disp(['Performing route maintenance at Node ', num2str(node)]);
+        function route_maintenance(network, source, destination)
+            disp(['Performing route maintenance at Node ', num2str(source)]);
+            route_discovery(network, source, destination);
             %.......
         end
         

@@ -6,14 +6,7 @@ classdef Node < handle
         E_initial = 2;
         E_tx;
         E_rx;
-        Packet_Size = 500; %bytes
-        Elec = 50 * 0.000000001; % J/bit
-        Eamp = 100 * 0.000000000001; %J
-        Efs = 10 * 0.000000000001; % J/bit/m^2
-        Emp = 0.0013 * 0.000000000001; %J/bit/m^4
         distance = []; %distance
-        d0; %thresh hold
-        B = 500 * 1024; %bit 
         neighbor = [];
         ID;
         parent;
@@ -21,6 +14,7 @@ classdef Node < handle
         status = 3; %live node. If dead, status = 0 
         routingTable;
         critical_level = 1;
+        d0; %thresh hold
     end  
     methods
         %Constructor
@@ -69,11 +63,11 @@ classdef Node < handle
             adj_matrix = zeros(length(nodes), length(nodes));
             for i = 1 : length(nodes)
                 for j = 1 : length(nodes)
-                    distance = sqrt((nodes(i).x - nodes(j).x)^2 ...
+                    dist = sqrt((nodes(i).x - nodes(j).x)^2 ...
                         + (nodes(i).y - nodes(j).y)^2);
                     if (i == j)
                         adj_matrix(i,j) = 0;
-                    elseif (i~=j && distance < nodes(i).radious && nodes(i).status > 0)
+                    elseif (i~=j && dist < nodes(i).radious && nodes(i).status > 0)
                         adj_matrix(i,j) = 1;
                     else
                         adj_matrix(i,j) = inf;
@@ -130,29 +124,61 @@ classdef Node < handle
 
         %Energy
         function change_energy_Tx(node)
+            Packet_Size = 500; %bytes
+            Elec = 50 * 0.000000001; % J/bit
+%             Eamp = 100 * 0.000000000001; %J
+            Efs = 10 * 0.000000000001; % J/bit/m^2
+            Emp = 0.0013 * 0.000000000001; %J/bit/m^4     
+            B = Packet_Size * 1024; %bit 
             for i = 1 : length(node.neighbor)
                 if(node.distance(i) < node.d0)
-                     node.E_tx(i) = (node.B * node.Elec) + (node.B * node.Efs * (node.distance(i)^2));
+                     node.E_tx(i) = (B * Elec) + (B * Emp * (node.distance(i)^2));
                 else
-                     node.E_tx(i) = (node.B * node.Elec) + (node.B * node.Efs * (node.distance(i)^4));
+                     node.E_tx(i) = (B * Elec) + (B * Efs * (node.distance(i)^4));
                 end              
             end
         end
 
-        function change_energy_Rx(obj)
-            obj.E_rx = obj.B*obj.Elec;
-        end   
+        function change_energy_Rx(node)
+            Packet_Size = 500; %bytes
+            Elec = 50 * 0.000000001; % J/bit
+            B = Packet_Size * 1024; %bit 
+            node.E_rx = B * Elec;
+        end
+        function energy_RREQ(node)
+            Broadcast_size = 10; %byte
+            Elec = 50 * 0.000000001; % J/bit
+%             Eamp = 100 * 0.000000000001; %J
+            Efs = 10 * 0.000000000001; % J/bit/m^2
+            Emp = 0.0013 * 0.000000000001; %J/bit/m^4
+            B2 = Broadcast_size * 1024;
+            for i = 1 : length(node.neighbor)
+                if(node.distance(i) < node.d0)
+                     node.E_tx(i) = (B2 * Elec) + (B2 * Emp * (node.distance(i)^2));
+                else
+                     node.E_tx(i) = (B2 * Elec) + (B2 * Efs * (node.distance(i)^4));
+                end              
+            end
+        end
+
+        function energy_RREP(node)
+            Broadcast_size = 10;
+            Elec = 50 * 0.000000001; % J/bit
+            B = Broadcast_size * 1024;
+            node.E_rx = B * Elec;          
+        end
+        
         %Energy information on figure 
         function plot_energy_info(nodes)
             persistent prev_text_handles; % Persistent variable to store previous text handles
             n = numel(nodes); 
-            x = zeros(1, n);
-            y = zeros(1, n);
+            px = zeros(1, n);
+            py = zeros(1, n);
             str = cell(1, n);    
             % Get nodes' positions and energy information
             for i = 1:n
-                x(i) = nodes(i).x;
-                y(i) = nodes(i).y;
+                px(i) = nodes(i).x;
+                py(i) = nodes(i).y;
                 str{i} = num2str(nodes(i).E_initial);
             end 
             % Delete previous energy information if handles are valid
@@ -162,12 +188,11 @@ classdef Node < handle
             % Plot energy information text
             text_handles = zeros(1, n);
             for i = 1:n
-                text_handles(i) = text(x(i) + 0.7, y(i) + 0.7, str{i});
+                text_handles(i) = text(px(i) + 0.7, py(i) + 0.7, str{i});
             end 
             % Store current text handles for future deletion
             prev_text_handles = text_handles;
             hold off;
         end
-
     end
 end
