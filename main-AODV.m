@@ -10,7 +10,17 @@ box on
 xlabel (' Length (m)') % X-label of the output plot
 ylabel (' Width (m)') % Y-label of the output plot
 title (' Simulator') % Title of the plot
+% Define legend labels and corresponding colors
+legend_labels = {'RREQ', 'RREP', 'Transmission Path'};
+legend_colors = {'r', 'c', 'b'};
 
+% Create a custom legend without actual plot data
+for i = 1:numel(legend_labels)
+    plot(NaN, NaN, 'Color', legend_colors{i}, 'DisplayName', legend_labels{i});
+    hold on;
+end
+% Show legend
+legend('Location', 'best');
 %% Making Network
 numNodes = 15; 
 R = 11; % Radius in range of sensor Nodes
@@ -28,6 +38,7 @@ G = graph(s, t);
 figure = plot(G, 'XData', x, 'YData', y);
 plot_energy_info(nodes);
 
+
  %% Simulation
 %Add aodv routing protocol, use when node i want to send packets to BST
 BST = 1;
@@ -42,7 +53,8 @@ timeEnd = 100;
 for timeStep = timeStart : timeEnd
     
     PacketTransmission(10, BST, network);
-    plot_energy_info(nodes);
+    PacketTransmission(12, BST, network);
+    PacketTransmission(15, BST, network);
     
     pause(0.1);    
 end

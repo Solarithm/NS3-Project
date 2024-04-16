@@ -20,6 +20,7 @@ classdef Node < handle
         child;
         status = 3; %live node. If dead, status = 0 
         routingTable;
+        critical_level = 1;
     end  
     methods
         %Constructor
