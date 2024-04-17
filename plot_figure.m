@@ -31,7 +31,7 @@ function plot_figure(s, t, x, y, MST, link,high_energy_threshold,medium_energy_t
         h.LineStyle = '-';
         h.LineWidth = 2;
         h.Color = [0.9290 0.6940 0.1250];
-%         pause(0.1);
+        pause(0.1);
         end
          
 end

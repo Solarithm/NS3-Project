@@ -26,9 +26,10 @@ while(edge_count < n-1)
         end
         if(visted(i))
         for j = 1:length(node(i).neighbor)
-                 if(~visted(node(i).neighbor(j)) && node(node(i).neighbor(j)).hirechical > max_hirechical && node(i).link(j) > max_link)
+                 if(~visted(node(i).neighbor(j)) && node(node(i).neighbor(j)).hirechical > max_hirechical)
+%                             && node(i).link(j) > max_link
                         max_hirechical = node(node(i).neighbor(j)).hirechical;
-                        max_link = node(i).link(j); 
+%                         max_link = node(i).link(j); 
                         u = i;
                         v = node(i).neighbor(j);
                         end
