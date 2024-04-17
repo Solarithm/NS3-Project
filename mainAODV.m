@@ -15,7 +15,7 @@ legend_colors = {'r', 'c', 'b'};
 
 % Create a custom legend without actual plot data
 for i = 1:numel(legend_labels)
-    plot(NaN, NaN, 'Color', legend_colors{i}, 'DisplayName', legend_labels{i});
+    plot(NaN, NaN, 'Color', legend_colors{i}, 'LineWidth', 2, 'DisplayName', legend_labels{i});
     hold on;
 end
 % Show legend
@@ -36,7 +36,6 @@ end
 G = graph(s, t);
 figure = plot(G, 'XData', x, 'YData', y);
 plot_energy_info(nodes);
-
 
  %% Simulation
 %Add aodv routing protocol, use when node i want to send packets to BST

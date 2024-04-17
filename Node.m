@@ -11,7 +11,6 @@ classdef Node < handle
         ID;
         parent;
         child;
-        status = 3; %live node. If dead, status = 0 
         routingTable;
         critical_level = 1;
         d0; %thresh hold
@@ -37,7 +36,6 @@ classdef Node < handle
                 if nodes(i).child == node_id
                     nodes(i).child = [];
                 end
-
                 if nodes(i).parent == node_id
                     nodes(i).parent = [];
                 end
@@ -45,7 +43,6 @@ classdef Node < handle
         end
         
         function DisconnectedNode(nodes, node_id)
-            nodes(node_id).status = 0;
             nodes(node_id).E_initial = 0;
             DeleteNodesFromNeighbor(nodes, node_id);
         end
@@ -67,7 +64,7 @@ classdef Node < handle
                         + (nodes(i).y - nodes(j).y)^2);
                     if (i == j)
                         adj_matrix(i,j) = 0;
-                    elseif (i~=j && dist < nodes(i).radious && nodes(i).status > 0)
+                    elseif (i~=j && dist < nodes(i).radious)
                         adj_matrix(i,j) = 1;
                     else
                         adj_matrix(i,j) = inf;

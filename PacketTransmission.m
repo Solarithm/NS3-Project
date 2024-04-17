@@ -9,7 +9,7 @@ function PacketTransmission(source, destination, network)
     py(iter) = network.nodes(source).y;
     iter = 2;
     arr_line = [];
-    while(source > 1)   
+    while(source ~= destination)   
         % Get next hop from routing table
         idex_arr = [network.nodes(source).routingTable.Destination];
         des_idx = find(idex_arr == destination);
