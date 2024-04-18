@@ -1,15 +1,15 @@
-classdef AODV
+classdef EAODV
     properties
         nodes % Array of Node objects
     end
     
     methods
-        function network = AODV(nodes)
+        function network = EAODV(nodes)
             network.nodes = nodes;
         end
         
         function route_discovery(network, source, destination)
-            path = Routing(network.nodes, source, destination);
+            path = ERouting(network.nodes, source, destination);
             if (~any(path == destination))
                 return;
             end

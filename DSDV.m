@@ -9,7 +9,7 @@ classdef DSDV
         end
         
         function route_discovery(network, source, destination)
-            path = findShortestPath(network.nodes, source, destination);
+            path = Routing(network.nodes, source, destination);
             % Path found
             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path

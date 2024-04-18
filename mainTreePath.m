@@ -10,8 +10,8 @@ xlabel (' Length (m)') % X-label of the output plot
 ylabel (' Width (m)') % Y-label of the output plot
 title (' Simulator') % Title of the plot
 % Define legend labels and corresponding colors
-legend_labels = {'Transmission Path'};
-legend_colors = {'b'};
+legend_labels = {'Prim Tree', 'Transmission Path'};
+legend_colors = {'g', 'b'};
 
 % Create a custom legend without actual plot data
 for i = 1:numel(legend_labels)

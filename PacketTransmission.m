@@ -1,4 +1,8 @@
-function PacketTransmission(source, destination, network)    
+function PacketTransmission(source, destination, network) 
+    if (network.nodes(source).E_initial < 1)
+        fprintf("Node %d turn on sleep mode\n", source);
+        return;
+    end
     if ~any([network.nodes(source).routingTable.Destination] == destination)
         route_discovery(network, source, destination);
     end
@@ -9,10 +13,14 @@ function PacketTransmission(source, destination, network)
     py(iter) = network.nodes(source).y;
     iter = 2;
     arr_line = [];
+    fprintf("Transmitting data from node %d to node %d\n", source, destination);
     while(source ~= destination)   
         % Get next hop from routing table
         idex_arr = [network.nodes(source).routingTable.Destination];
         des_idx = find(idex_arr == destination);
+        if (isempty(des_idx))
+            return;
+        end
         next_hop = network.nodes(source).routingTable(des_idx).NextHop;
         change_energy_Tx(network.nodes(source));
         if(network.nodes(next_hop).E_initial > network.nodes(next_hop).critical_level) % transmission to node's energy > critcal level
@@ -30,7 +38,7 @@ function PacketTransmission(source, destination, network)
             arr_line(end+1) = h; % Store handle to the line object
             h.HandleVisibility = 'off';
             plot_energy_info(network.nodes);
-            pause(0.5); 
+            pause(0.05); 
             drawnow;
             %end draw
             
