@@ -1,5 +1,5 @@
 %% Create Animation Area
-Create();
+Create(1);
 
 %% Making Network
 R = 11; % Radius in range of sensor Nodes
@@ -27,7 +27,5 @@ BST = 1;
 for timeStep = timeStart : timeEnd
     PacketTransmission(10, BST, network);
     PacketTransmission(12, BST, network);
-    PacketTransmission(15, BST, network);
-    
-    pause(0.1);    
+    PacketTransmission(15, BST, network);   
 end

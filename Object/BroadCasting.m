@@ -1,15 +1,15 @@
-function [shortest_distance, path] = BroadCasting(nodes, start, finish)
+function [shortest_distance, path] = BroadCasting(nodes, source, destination)
     n = length(nodes);
     dist = Inf(1, n);
     prev = -ones(1, n);
     pq = PriorityQueue();
 
-    dist(start) = 0;
-    pq.insert(start, 0);
+    dist(source) = 0;
+    pq.insert(source, 0);
 
     while ~pq.isEmpty
         u = pq.pop();
-        if u == finish
+        if u == destination
             break;
         end
         neighbors = nodes(u).neighbor;
@@ -41,12 +41,12 @@ function [shortest_distance, path] = BroadCasting(nodes, start, finish)
 
     % Reconstruct path
     path = [];
-    current = finish;
+    current = destination;
     while current ~= -1
         path = [path, current];
         current = prev(current);
     end
     path = fliplr(path);
 
-    shortest_distance = dist(finish);
+    shortest_distance = dist(destination);
 end

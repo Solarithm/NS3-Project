@@ -9,6 +9,7 @@ classdef EAODV
         end
         
         function route_discovery(network, source, destination)
+            UpdateLinkQuality(network.nodes);
             path = ERouting(network.nodes, source, destination);
             if (~any(path == destination))
                 return;

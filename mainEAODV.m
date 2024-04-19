@@ -1,6 +1,6 @@
 %% Create Animation Area
 Create(1);
-title('AODV Routing');
+title('EAODV Routing');
 %% Making Network
 
 R = 11; % Radius in range of sensor Nodes
@@ -16,19 +16,15 @@ end
 G = graph(s, t);
 figure = plot(G, 'XData', x, 'YData', y);
 plot_energy_info(nodes);
-
-%% TEMP
-index1 = [];
-E1 = [];
  %% Simulation
  
 %Add aodv routing protocol, use when node i want to send packets to BST
 BST = 1;
-network = AODV(nodes);
-fileID = fopen('dataAODV.tr', 'w');
+network = EAODV(nodes);
+fileID = fopen('dataEAODV.tr', 'w');
 timeStart = 1;
 timeEnd = 100;
-for timeStep = timeStart : 32
+for timeStep = timeStart : 40
     
     PacketTransmission(10, BST, network);
     PacketTransmission(7, BST, network);  

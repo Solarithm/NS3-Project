@@ -6,8 +6,9 @@ classdef Node < handle
         E_initial = 2;
         E_tx;
         E_rx;
-        distance = []; %distance
-        neighbor = [];
+        distance; %distance
+        neighbor;
+        link;
         ID;
         parent;
         child;
@@ -55,7 +56,16 @@ classdef Node < handle
                 end
             end
         end
-
+        
+        function UpdateLinkQuality(nodes)
+            for i = 1 : length(nodes)
+                for j = 1 : length(nodes(i).neighbor)
+                    nodes(i).link(j) = sqrt(nodes(i).E_initial * nodes(nodes(i).neighbor(j)).E_initial) ...
+                                        * exp(-nodes(i).distance(j))/2;
+                end
+            end
+        end
+        
         function adj_matrix = AdjMatrix(nodes)
             adj_matrix = zeros(length(nodes), length(nodes));
             for i = 1 : length(nodes)
@@ -116,21 +126,6 @@ classdef Node < handle
                     node.routingTable(i).Destination, ...
                     node.routingTable(i).NextHop, ...
                     node.routingTable(i).Cost);
-            end
-        end
-        %Node animation
-        function plot_Node(node, high_energy_threshold, medium_energy_threshold)
-            for i = 1:length(node)
-                if (node(i).E_intial > high_energy_threshold)
-                    % Node có n?ng l??ng cao: màu xanh
-                    plot_node = plot(node(i).x, node(i).y, 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'b', 'MarkerSize', 10);
-                elseif (node(i).E_intial <= high_energy_threshold && node(i).E_intial > medium_energy_threshold)
-                    % Node có n?ng l??ng trung bình: màu vàng
-                    plot_node = plot(node(i).x, node(i).y, 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'y', 'MarkerSize', 10);
-                else
-                    % Node có n?ng l??ng th?p: màu ??
-                    plot_node = plot(node(i).x, node(i).y, 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'r', 'MarkerSize', 10);
-                end
             end
         end
         
@@ -230,7 +225,27 @@ classdef Node < handle
             % Store current text handles for future deletion
             prev_text_handles = text_handles;
         end
-
+        
+        function trigger = DetectCriticalNode(nodes)
+            trigger = 0;
+            for i = 1 : length(nodes)
+                if (nodes(i).E_initial < nodes(i).critical_level)
+                    trigger = 1;
+                    return;
+                end
+            end
+        end
+        
+        function ClearRoutingTable(nodes)
+            for i = 1:numel(nodes)
+                % Check if the routingTable property exists and is not empty
+                if ~isempty(nodes(i).routingTable)
+                    for j = 1 : length(nodes(i).routingTable)
+                       nodes(i).routingTable(j) = [];
+                    end
+                end
+            end
+        end
 
     end
 end

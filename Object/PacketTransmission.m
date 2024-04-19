@@ -31,15 +31,15 @@ function PacketTransmission(source, destination, network)
             px(iter) = network.nodes(next_hop).x;
             py(iter) = network.nodes(next_hop).y;
             %draw transmission line
-            h = line([px(iter - 1), px(iter)], [py(iter - 1), py(iter)]);
-            h.LineStyle = '-';
-            h.LineWidth = 2;
-            h.Color = [0 0 1];
-            arr_line(end+1) = h; % Store handle to the line object
-            h.HandleVisibility = 'off';
-            plot_energy_info(network.nodes);
-            pause(0.05); 
-            drawnow;
+%             h = line([px(iter - 1), px(iter)], [py(iter - 1), py(iter)]);
+%             h.LineStyle = '-';
+%             h.LineWidth = 2;
+%             h.Color = [0 0 1];
+%             arr_line(end+1) = h; % Store handle to the line object
+%             h.HandleVisibility = 'off';
+%             plot_energy_info(network.nodes);
+%             pause(0.05); 
+%             drawnow;
             %end draw
             
             iter = iter + 1;
