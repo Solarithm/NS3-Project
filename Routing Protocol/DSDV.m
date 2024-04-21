@@ -7,17 +7,34 @@ classdef DSDV
         function network = DSDV(nodes)
             network.nodes = nodes;
         end
-        
+        % Do at start
         function route_discovery(network, source, destination)
             path = Routing(network.nodes, source, destination);
+            if (~any(path == destination))
+                return;
+            end
             % Path found
             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
+            arr_line = [];
             for i = 2:length(path)
                 curr_node = path(i-1);
                 prev_node = path(i);
-                network.update_routing_table(prev_node, curr_node, destination);
+                destination_found = any([network.nodes(curr_node).routingTable.Destination] == destination);
+                if ~destination_found              
+                    network.update_routing_table(prev_node, curr_node, destination);                   
+                end        
             end
+            % Draw back with a different color
+            for i = length(arr_line):-1:1
+                set(arr_line(i), 'Color', [1 0 0]); % Set color using 'set' function
+                pause(0.05);
+                drawnow;
+            end
+            % Clear the previous lines
+            for i = 1:numel(arr_line)
+                delete(arr_line(i)); % Delete the line object
+            end        
         end
 
         function update_routing_table(network, prev_node, curr_node, destination)
@@ -50,7 +67,47 @@ classdef DSDV
         
         function route_maintenance(network, source, destination)
             disp(['Performing route maintenance at Node ', num2str(source)]);
-            route_discovery(network, source, destination);
+            path = Routing(network.nodes, source, destination);
+            if (~any(path == destination))
+                return;
+            end
+            % Path found
+            disp(['Done maintainance for node ', num2str(source), ' to node ', num2str(destination)]);
+            % Update routing tables along the path
+            arr_line = [];
+            for i = 2:length(path)
+                curr_node = path(i-1);
+                prev_node = path(i);
+                destination_found = any([network.nodes(curr_node).routingTable.Destination] == destination);
+                if ~destination_found
+                    energy_RREQ(network.nodes(curr_node));     
+                    energy_RREP(network.nodes(prev_node));
+                    idx = find(network.nodes(curr_node).neighbor == prev_node);
+                    network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx); 
+                    network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx;               
+                    network.update_routing_table(prev_node, curr_node, destination);                   
+                    % Plot routing line
+%                     h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
+%                     h.LineStyle = '-';
+%                     h.LineWidth = 2;
+%                     h.Color = [0 1 1];
+%                     arr_line(end+1) = h; % Store handle to the line object
+%                     h.HandleVisibility = 'off';
+%                     plot_energy_info(network.nodes);
+%                     pause(0.01);
+%                     drawnow;
+                end        
+            end
+            % Draw back with a different color
+            for i = length(arr_line):-1:1
+                set(arr_line(i), 'Color', [1 0 0]); % Set color using 'set' function
+                pause(0.05);
+                drawnow;
+            end
+            % Clear the previous lines
+            for i = 1:numel(arr_line)
+                delete(arr_line(i)); % Delete the line object
+            end
             %.......
         end
         
@@ -59,7 +116,7 @@ classdef DSDV
                 network.nodes(node_id).display_routing_table();
             else
                 fprintf('Routing table for Node %d:\n', node_id);
-                disp(['       No information of routing table. Please do route discovery! ']);
+                disp('No information of routing table. Please do route discovery! ');
             end
         end
     end

@@ -48,10 +48,21 @@ classdef Prim
             end
             
             for i = 1 : edgeCount
-                next_node = MST(i, 1);
-                cur_node = MST(i, 2);
-                network.nodes(cur_node).add_route(destination, next_node, 1);
-                h = line([network.nodes(next_node).x, network.nodes(cur_node).x], [network.nodes(next_node).y, network.nodes(cur_node).y]);    
+                next_hop = MST(i, 1);
+                curr_node = MST(i, 2);
+                if ~isempty(network.nodes(curr_node).routingTable)
+                    % Check if there is available destination
+                    destination_found = any([network.nodes(curr_node).routingTable.Destination] == destination);
+                    if ~destination_found
+                        % if no, add
+                        network.nodes(curr_node).add_route(destination, next_hop, 1);
+                    end
+                else
+                    % if no routing, add
+                    network.nodes(curr_node).add_route(destination, next_hop, 1);
+                end
+                
+                h = line([network.nodes(next_hop).x, network.nodes(curr_node).x], [network.nodes(next_hop).y, network.nodes(curr_node).y]);    
                 h.LineStyle = '-';
                 h.LineWidth = 2;
                 h.Color = [0 1 0];
