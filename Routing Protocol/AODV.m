@@ -14,7 +14,7 @@ classdef AODV
                 return;
             end
             % Path found
-            disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
+%             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
             arr_line = [];
             for i = 2:length(path)
@@ -47,7 +47,6 @@ classdef AODV
                 pause(0.05);
                 drawnow;
             end
-            % Clear the previous lines
             for i = 1:numel(arr_line)
                 delete(arr_line(i)); % Delete the line object
             end        
@@ -71,7 +70,7 @@ classdef AODV
         end
 
         function route_maintenance(network, source, destination)
-            disp(['Performing route maintenance at Node ', num2str(source)]);
+%             disp(['Performing route maintenance at Node ', num2str(source)]);
             route_discovery(network, source, destination);
             %.......
         end
@@ -80,7 +79,7 @@ classdef AODV
             if ~isempty(network.nodes(node_id).routingTable)
                 network.nodes(node_id).display_routing_table();
             else
-                fprintf(' NO INFORMATION OF NODE %d ROUTING TABLE', node_id);
+%                 fprintf(' NO INFORMATION OF NODE %d ROUTING TABLE', node_id);
             end
         end
     end

@@ -1,6 +1,6 @@
 function PacketTransmission(source, destination, network) 
     if (network.nodes(source).E_initial < 1)
-        fprintf("Node %d turn on sleep mode\n", source);
+%     fprintf("Node %d turn on sleep mode\n", source);
         return;
     end
     if ~any([network.nodes(source).routingTable.Destination] == destination)
@@ -13,7 +13,7 @@ function PacketTransmission(source, destination, network)
     py(iter) = network.nodes(source).y;
     iter = 2;
     arr_line = [];
-    fprintf("Transmitting data from node %d to node %d\n", source, destination);
+%     fprintf("Transmitting data from node %d to node %d\n", source, destination);
     while(source ~= destination)   
         % Get next hop from routing table
         idex_arr = [network.nodes(source).routingTable.Destination];

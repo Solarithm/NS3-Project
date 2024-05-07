@@ -13,8 +13,8 @@ classdef Node < handle
         parent;
         child;
         routingTable;
-        critical_level = 1;
-        d0; %thresh hold
+        critical_level = 0.5;
+        d0 = 86.1424; %thresh hold
     end  
     methods
         %Constructor
@@ -131,7 +131,7 @@ classdef Node < handle
         
         %Energy
         function change_energy_Tx(node)
-            Packet_Size = 50000; %bytes
+            Packet_Size = 50*1024; %bytes
             Elec = 50 * 0.000000001; % J/bit
 %             Eamp = 100 * 0.000000000001; %J
             Efs = 10 * 0.000000000001; % J/bit/m^2
@@ -141,19 +141,19 @@ classdef Node < handle
                 if(node.distance(i) < node.d0)
                      node.E_tx(i) = (B * Elec) + (B * Emp * (node.distance(i)^2));
                 else
-                     node.E_tx(i) = (B * Elec) + (B * Efs * (node.distance(i)^4));
+                     node.E_tx(i) = (B * Elec) + (B * Efs * (node.	(i)^4));
                 end              
             end
         end
 
         function change_energy_Rx(node)
-            Packet_Size = 50000; %bytes
+            Packet_Size = 50*1024; %bytes
             Elec = 50 * 0.000000001; % J/bit
             B = Packet_Size * 8; %bit 
             node.E_rx = B * Elec;
         end
         function energy_RREQ(node)
-            Broadcast_size = 100; %byte
+            Broadcast_size = 10*1024; %byte
             Elec = 50 * 0.000000001; % J/bit
 %             Eamp = 100 * 0.000000000001; %J
             Efs = 10 * 0.000000000001; % J/bit/m^2
@@ -169,7 +169,7 @@ classdef Node < handle
         end
 
         function energy_RREP(node)
-            Broadcast_size = 100;
+            Broadcast_size = 10*1024;
             Elec = 50 * 0.000000001; % J/bit
             B = Broadcast_size * 8;
             node.E_rx = B * Elec;          
@@ -202,7 +202,7 @@ classdef Node < handle
                 if nodes(i).E_initial > 1.4
                     % Node green
                     plot(px(i), py(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'g', 'MarkerSize', 10, 'HandleVisibility', 'off');
-                elseif nodes(i).E_initial <= 1.4 && nodes(i).E_initial > 1
+                elseif nodes(i).E_initial <= 1.4 && nodes(i).E_initial > nodes(i).critical_level
                     % Node yellow
                     plot(px(i), py(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'y', 'MarkerSize', 10, 'HandleVisibility', 'off');
                 else

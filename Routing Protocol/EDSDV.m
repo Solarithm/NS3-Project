@@ -9,12 +9,13 @@ classdef EDSDV
         end
         % Do at start
         function route_discovery(network, source, destination)
+            UpdateLinkQuality(network.nodes);
             path = ERouting(network.nodes, source, destination);
             if (~any(path == destination))
                 return;
             end
             % Path found
-            disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
+%             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
             arr_line = [];
             for i = 2:length(path)
@@ -55,7 +56,7 @@ classdef EDSDV
         end
         
         function init_DSDV_routing(network)
-            fprintf('START DSDV ROUTING... \n');
+%             fprintf('START DSDV ROUTING... \n');
             for i = 1 : length(network.nodes)
                 for j = 1 : 1 : length(network.nodes)
                     if i ~= j
@@ -66,13 +67,13 @@ classdef EDSDV
         end
         
         function route_maintenance(network, source, destination)
-            disp(['Performing route maintenance at Node ', num2str(source)]);
+%             disp(['Performing route maintenance at Node ', num2str(source)]);
             path = ERouting(network.nodes, source, destination);
             if (~any(path == destination))
                 return;
             end
             % Path found
-            disp(['Done maintainance for node ', num2str(source), ' to node ', num2str(destination)]);
+%             disp(['Done maintainance for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
             arr_line = [];
             for i = 2:length(path)
@@ -115,8 +116,8 @@ classdef EDSDV
             if ~isempty(network.nodes(node_id).routingTable)
                 network.nodes(node_id).display_routing_table();
             else
-                fprintf('Routing table for Node %d:\n', node_id);
-                disp('No information of routing table. Please do route discovery! ');
+%                 fprintf('Routing table for Node %d:\n', node_id);
+%                 disp('No information of routing table. Please do route discovery! ');
             end
         end
     end

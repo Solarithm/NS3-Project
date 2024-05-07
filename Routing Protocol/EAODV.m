@@ -15,7 +15,7 @@ classdef EAODV
                 return;
             end
             % Path found
-            disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
+%             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
             arr_line = [];
             for i = 2:length(path)
@@ -31,15 +31,15 @@ classdef EAODV
                     network.update_routing_table(prev_node, curr_node, destination);
                     
                     % Plot routing line
-                    h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
-                    h.LineStyle = '-';
-                    h.LineWidth = 2;
-                    h.Color = [0 1 1];
-                    arr_line(end+1) = h; % Store handle to the line object
-                    h.HandleVisibility = 'off';
-                    plot_energy_info(network.nodes);
-                    pause(0.01);
-                    drawnow;
+%                     h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
+%                     h.LineStyle = '-';
+%                     h.LineWidth = 2;
+%                     h.Color = [0 1 1];
+%                     arr_line(end+1) = h; % Store handle to the line object
+%                     h.HandleVisibility = 'off';
+%                     plot_energy_info(network.nodes);
+%                     pause(0.01);
+%                     drawnow;
                 end        
             end
             % Draw back with a different color
@@ -72,7 +72,7 @@ classdef EAODV
         end
 
         function route_maintenance(network, source, destination)
-            disp(['Performing route maintenance at Node ', num2str(source)]);
+%             disp(['Performing route maintenance at Node ', num2str(source)]);
             route_discovery(network, source, destination);
             %.......
         end
@@ -81,7 +81,7 @@ classdef EAODV
             if ~isempty(network.nodes(node_id).routingTable)
                 network.nodes(node_id).display_routing_table();
             else
-                fprintf(' NO INFORMATION OF NODE %d ROUTING TABLE', node_id);
+%                 fprintf(' NO INFORMATION OF NODE %d ROUTING TABLE', node_id);
             end
         end
     end

@@ -25,30 +25,14 @@ nodes(BST).E_initial = 3;
 network = Prim(nodes);
 fileID = fopen('dataPrim.tr', 'w');
 timeStart = 1;
-timeEnd = 100;
-for timeStep = timeStart : 29
+timeEnd = 7;
+for timeStep = timeStart : timeEnd
 %     try
         fprintf("%d\n", timeStep);
-        if ( nodes(10).E_initial > 1 )
-            PrimPacketTransmission(10, BST, network);
-        end
-        if ( nodes(7).E_initial > 1 )
-            PrimPacketTransmission(7, BST, network);  
-        end
-        if ( nodes(35).E_initial > 1 )
-            PrimPacketTransmission(35, BST, network);  
-        end
-        if ( nodes(36).E_initial > 1 )
-            PrimPacketTransmission(36, BST, network);  
-        end
-        if ( nodes(20).E_initial > 1 )
-            PrimPacketTransmission(20, BST, network);  
-        end
-        if ( nodes(39).E_initial > 1 )
-            PrimPacketTransmission(39, BST, network);  
-        end
-        if ( nodes(15).E_initial > 1 )
-            PrimPacketTransmission(15, BST, network);  
+        for i = 2 : numNodes
+            if ( nodes(i).E_initial > 1 )
+                PrimPacketTransmission(i, BST, network);
+            end
         end
 
         res_energy = energy_global_residual(nodes);
