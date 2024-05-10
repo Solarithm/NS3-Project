@@ -137,7 +137,7 @@ function axes1_ButtonDownFcn(hObject, eventdata, handles)
 
     % Plot a marker at the clicked point
     hold(handles.axes1, 'on');
-    viscircles(handles.axes1, [sx, sy], 2, 'Color', 'g', 'LineWidth', 2);
+    viscircles(handles.axes1, [sx, sy], 3, 'Color', 'g', 'LineWidth', 3);
 
     % Retrieve the existing variables from the base workspace
     if evalin('base', 'exist(''x'', ''var'')') && evalin('base', 'exist(''y'', ''var'')')

@@ -17,6 +17,7 @@ classdef Node < handle
         critical_level = 0.5;  
         d0 = 86.1424; %thresh hold
         status = 0;
+        nPackets = 2;
     end  
     methods
         %Constructor
@@ -151,7 +152,7 @@ classdef Node < handle
         
         %Energy
         function change_energy_Tx(node)
-            Packet_Size = 50*1024; %bytes
+            Packet_Size = node.nPackets*1024; %bytes
             Elec = 50 * 0.000000001; % J/bit
 %             Eamp = 100 * 0.000000000001; %J
             Efs = 10 * 0.000000000001; % J/bit/m^2
@@ -167,13 +168,13 @@ classdef Node < handle
         end
 
         function change_energy_Rx(node)
-            Packet_Size = 50*1024; %bytes
+            Packet_Size = node.nPackets *1024; %bytes
             Elec = 50 * 0.000000001; % J/bit
             B = Packet_Size * 8; %bit 
             node.E_rx = B * Elec;
         end
         function energy_RREQ(node)
-            Broadcast_size = 10*1024; %byte
+            Broadcast_size = 100; %byte
             Elec = 50 * 0.000000001; % J/bit
 %             Eamp = 100 * 0.000000000001; %J
             Efs = 10 * 0.000000000001; % J/bit/m^2
@@ -189,7 +190,7 @@ classdef Node < handle
         end
 
         function energy_RREP(node)
-            Broadcast_size = 10*1024;
+            Broadcast_size = 100;
             Elec = 50 * 0.000000001; % J/bit
             B = Broadcast_size * 8;
             node.E_rx = B * Elec;          
@@ -216,11 +217,11 @@ classdef Node < handle
                 py(i) = nodes(i).y;
                 str{i} = num2str(nodes(i).E_initial);
                 if nodes(i).E_initial > nodes(i).warning_level
-                    viscircles([px(i), py(i)], 2, 'Color', 'g', 'LineWidth', 2);
+                    viscircles([px(i), py(i)], 3, 'Color', 'g', 'LineWidth', 2);
                 elseif nodes(i).E_initial <= nodes(i).warning_level && nodes(i).E_initial > nodes(i).critical_level
-                    viscircles([px(i), py(i)], 2, 'Color', 'y', 'LineWidth', 2);
+                    viscircles([px(i), py(i)], 3, 'Color', 'y', 'LineWidth', 2);
                 else
-                    viscircles([px(i), py(i)], 2, 'Color', 'r', 'LineWidth', 2);
+                    viscircles([px(i), py(i)], 3, 'Color', 'r', 'LineWidth', 2);
                 end            
             end 
 
