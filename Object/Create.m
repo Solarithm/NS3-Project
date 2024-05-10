@@ -1,5 +1,4 @@
 function Create(num)
-    cla;
     clf;
     clc;
     grid on

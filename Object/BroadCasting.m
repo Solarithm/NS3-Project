@@ -18,25 +18,15 @@ function [shortest_distance, path] = BroadCasting(nodes, source, destination)
             w = nodes(u).distance(i);
             % Check energy constraint for each neighbor
             if nodes(v).E_initial <= nodes(v).critical_level
-                continue; % Skip this neighbor if energy constraint is not met
+                continue;
             end
-            if dist(u) + w < dist(v)
+            if dist(u) + w < dist(v) && nodes(v).status == 0
                 dist(v) = dist(u) + w;
                 prev(v) = u;
                 pq.insert(v, dist(v));
             end
         end
-        % If no neighbor meets the energy constraint, choose the neighbor with the highest initial energy
-        if all([nodes(neighbors).E_initial] <= [nodes(neighbors).critical_level])
-            [~, max_E_index] = max([nodes(neighbors).E_initial]);
-            v = neighbors(max_E_index);
-            w = nodes(u).distance(max_E_index);
-            if dist(u) + w < dist(v)
-                dist(v) = dist(u) + w;
-                prev(v) = u;
-                pq.insert(v, dist(v));
-            end
-        end
+        
     end
 
     % Reconstruct path

@@ -8,11 +8,15 @@ classdef AODV
             network.nodes = nodes;
         end
         
-        function route_discovery(network, source, destination)
-            path = Routing(network.nodes, source, destination);
-            if (~any(path == destination))
+        function route_posible = route_discovery(network, source, destination)
+            route_posible = 0;
+            [shortest_dist, path] = BroadCasting(network.nodes, source, destination);
+            if (~any(path == destination)) 
+                network.nodes(source).status = 1;
+                route_posible = 1;
                 return;
             end
+           
             % Path found
 %             disp(['Done routing for node ', num2str(source), ' to node ', num2str(destination)]);
             % Update routing tables along the path
@@ -31,20 +35,18 @@ classdef AODV
                     
                     % Plot routing line
                     h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
-                    h.LineStyle = '-';
+                    h.LineStyle = '--';
                     h.LineWidth = 2;
                     h.Color = [0 1 1];
                     arr_line(end+1) = h; % Store handle to the line object
                     h.HandleVisibility = 'off';
                     plot_energy_info(network.nodes);
-                    pause(0.01);
                     drawnow;
                 end        
             end
             % Draw back with a different color
             for i = length(arr_line):-1:1
                 set(arr_line(i), 'Color', [1 0 0]); % Set color using 'set' function
-                pause(0.05);
                 drawnow;
             end
             for i = 1:numel(arr_line)
@@ -69,9 +71,9 @@ classdef AODV
             end
         end
 
-        function route_maintenance(network, source, destination)
+        function rp = route_maintenance(network, source, destination)
 %             disp(['Performing route maintenance at Node ', num2str(source)]);
-            route_discovery(network, source, destination);
+            rp = route_discovery(network, source, destination);
             %.......
         end
         

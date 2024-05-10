@@ -13,8 +13,10 @@ classdef Node < handle
         parent;
         child;
         routingTable;
-        critical_level = 0.5;
+        warning_level = 0.6;
+        critical_level = 0.5;  
         d0 = 86.1424; %thresh hold
+        status = 0;
     end  
     methods
         %Constructor
@@ -117,7 +119,25 @@ classdef Node < handle
             new_entry.Cost = cost;
             node.routingTable(end+1) = new_entry;
         end
+        
+        function check_status(nodes)
+            energy_levels = [nodes.E_initial];
+            indices_below_critical = find(energy_levels < nodes(1).critical_level & [nodes.status] ~= 1);
+            if ~isempty(indices_below_critical)
+                [nodes(indices_below_critical).status] = deal(1);
+            end
+            % Update status of nodes if all neighbor nodes have status 1
+            for i = 1:numel(nodes)
+                if nodes(i).status ~= 1
+                    neighbors = nodes(i).neighbor;
+                    if all([nodes(neighbors).status] == 1)
+                        nodes(i).status = 1;
+                    end
+                end              
+            end
+        end
 
+        
         function display_routing_table(node)
             % Display the routing table
             fprintf('Routing table for Node %d:\n', node.ID);
@@ -181,34 +201,27 @@ classdef Node < handle
             end
         end
         %Energy information on figure 
-        function plot_energy_info(nodes)
+        function plot_energy_info(nodes, axes)
             persistent prev_text_handles; % Persistent variable to store previous text handles
-
             % Get the number of nodes
             n = numel(nodes); 
-
+            
             % Initialize arrays for node positions and energy information
             px = zeros(1, n);
             py = zeros(1, n);
             str = cell(1, n);    
-
             % Get nodes' positions and energy information
             for i = 1:n
                 px(i) = nodes(i).x;
                 py(i) = nodes(i).y;
                 str{i} = num2str(nodes(i).E_initial);
-
-                % Plot nodes with different colors based on energy levels
-                if nodes(i).E_initial > 1.4
-                    % Node green
-                    plot(px(i), py(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'g', 'MarkerSize', 10, 'HandleVisibility', 'off');
-                elseif nodes(i).E_initial <= 1.4 && nodes(i).E_initial > nodes(i).critical_level
-                    % Node yellow
-                    plot(px(i), py(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'y', 'MarkerSize', 10, 'HandleVisibility', 'off');
+                if nodes(i).E_initial > nodes(i).warning_level
+                    viscircles([px(i), py(i)], 2, 'Color', 'g', 'LineWidth', 2);
+                elseif nodes(i).E_initial <= nodes(i).warning_level && nodes(i).E_initial > nodes(i).critical_level
+                    viscircles([px(i), py(i)], 2, 'Color', 'y', 'LineWidth', 2);
                 else
-                    % Node red
-                    plot(px(i), py(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'r', 'MarkerSize', 10, 'HandleVisibility', 'off');
-                end
+                    viscircles([px(i), py(i)], 2, 'Color', 'r', 'LineWidth', 2);
+                end            
             end 
 
             % Delete previous energy information if handles are valid
@@ -219,7 +232,7 @@ classdef Node < handle
             % Plot energy information text
             text_handles = zeros(1, n);
             for i = 1:n
-                text_handles(i) = text(px(i) + 0.7, py(i) + 0.7, str{i});
+                text_handles(i) = text(px(i) + 2, py(i) + 2, str{i});
             end 
 
             % Store current text handles for future deletion
@@ -246,6 +259,5 @@ classdef Node < handle
                 end
             end
         end
-
     end
 end
