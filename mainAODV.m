@@ -10,7 +10,7 @@ numNodes = length(x);
 nodes = Node.empty(numNodes, 0);
 for i = 1 : numNodes
     nodes(i) = Node(i, x(i), y(i), R);
-    nodes(i).critical_level = 0.5; 
+%     nodes(i).critical_level = 0.5; 
 end
 
 

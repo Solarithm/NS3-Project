@@ -22,14 +22,14 @@ function trigger = PacketTransmission(source, destination, network)
         if (isempty(des_idx))
             network.nodes(source).status = 1;
             delete(arr_line);
-            break;
+            return;
         end
         
         next_hop = network.nodes(source).routingTable(des_idx).NextHop;
         
         if network.nodes(next_hop).status == 1
             delete(arr_line);
-            break;
+            return;
         end
         
         change_energy_Tx(network.nodes(source));
@@ -59,5 +59,8 @@ function trigger = PacketTransmission(source, destination, network)
         end 
     end   
     
-    delete(arr_line);
+    if ~isempty(arr_line)
+        delete(arr_line);
+    end
+
 end

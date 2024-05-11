@@ -3,7 +3,7 @@ classdef Node < handle
         x;
         y;
         radious;
-        E_initial = 2;
+        E_initial = 1;
         E_tx;
         E_rx;
         distance; %distance
@@ -13,11 +13,11 @@ classdef Node < handle
         parent;
         child;
         routingTable;
-        warning_level = 0.6;
-        critical_level = 0.5;  
+        warning_level = 0.2;
+        critical_level = 0.1;  
         d0 = 86.1424; %thresh hold
         status = 0;
-        nPackets = 2;
+        nPackets = 30;
     end  
     methods
         %Constructor
@@ -198,7 +198,9 @@ classdef Node < handle
         function energy = energy_global_residual(nodes)
             energy = 0;
             for i = 1:length(nodes)
-                energy = energy + nodes(i).E_initial;
+                if i ~= 1
+                    energy = energy + nodes(i).E_initial;
+                end
             end
         end
         %Energy information on figure 
