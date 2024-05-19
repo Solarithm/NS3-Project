@@ -9,8 +9,7 @@ classdef EDSDV
         end
         % Do at start
         function route_discovery(network, source, destination)
-            UpdateLinkQuality(network.nodes);
-            path = ERouting(network.nodes, source, destination);
+            path = OptimizePath(network.nodes, source, destination);
             if (~any(path == destination))
                 return;
             end
@@ -55,7 +54,7 @@ classdef EDSDV
             end
         end
         
-        function init_DSDV_routing(network)
+        function init_EDSDV_routing(network)
 %             fprintf('START DSDV ROUTING... \n');
             for i = 1 : length(network.nodes)
                 for j = 1 : 1 : length(network.nodes)
@@ -68,7 +67,7 @@ classdef EDSDV
         
         function route_maintenance(network, source, destination)
 %             disp(['Performing route maintenance at Node ', num2str(source)]);
-            path = ERouting(network.nodes, source, destination);
+            path = OptimizePath(network.nodes, source, destination);
             if (~any(path == destination))
                 return;
             end
@@ -84,8 +83,8 @@ classdef EDSDV
                     energy_RREQ(network.nodes(curr_node));     
                     energy_RREP(network.nodes(prev_node));
                     idx = find(network.nodes(curr_node).neighbor == prev_node);
-                    network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx); 
-                    network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx;               
+                    network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx)*0.1; 
+                    network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx*0.1;               
                     network.update_routing_table(prev_node, curr_node, destination);                   
                     % Plot routing line
 %                     h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);

@@ -8,10 +8,11 @@ classdef EAODV
             network.nodes = nodes;
         end
         
-        function route_discovery(network, source, destination)
-            UpdateLinkQuality(network.nodes);
-            path = ERouting(network.nodes, source, destination);
-            if (~any(path == destination))
+        function route_posible = route_discovery(network, source, destination)
+            route_posible = 0;
+            path = OptimizePath(network.nodes, source, destination);
+            
+            if (~any(path == destination)) 
                 return;
             end
             % Path found
@@ -26,32 +27,30 @@ classdef EAODV
                     energy_RREQ(network.nodes(curr_node));     
                     energy_RREP(network.nodes(prev_node));
                     idx = find(network.nodes(curr_node).neighbor == prev_node);
-                    network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx); 
-                    network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx;               
+                    network.nodes(curr_node).E_initial = network.nodes(curr_node).E_initial - network.nodes(curr_node).E_tx(idx)*0.1; 
+                    network.nodes(prev_node).E_initial = network.nodes(prev_node).E_initial - network.nodes(prev_node).E_rx*0.1;               
                     network.update_routing_table(prev_node, curr_node, destination);
                     
                     % Plot routing line
 %                     h = line([network.nodes(curr_node).x, network.nodes(prev_node).x], [network.nodes(curr_node).y, network.nodes(prev_node).y]);
-%                     h.LineStyle = '-';
+%                     h.LineStyle = '--';
 %                     h.LineWidth = 2;
 %                     h.Color = [0 1 1];
 %                     arr_line(end+1) = h; % Store handle to the line object
 %                     h.HandleVisibility = 'off';
 %                     plot_energy_info(network.nodes);
-%                     pause(0.01);
 %                     drawnow;
+                    %end draw
                 end        
             end
             % Draw back with a different color
-            for i = length(arr_line):-1:1
-                set(arr_line(i), 'Color', [1 0 0]); % Set color using 'set' function
-                pause(0.05);
-                drawnow;
-            end
-            % Clear the previous lines
-            for i = 1:numel(arr_line)
-                delete(arr_line(i)); % Delete the line object
-            end        
+%             for i = length(arr_line):-1:1
+%                 set(arr_line(i), 'Color', [1 0 0]); % Set color using 'set' function
+%                 drawnow;
+%             end
+%             if ~isempty(arr_line)
+%                 delete(arr_line); % Delete the line object
+%             end        
         end
         
         function update_routing_table(network, prev_node, curr_node, destination)
@@ -71,9 +70,8 @@ classdef EAODV
             end
         end
 
-        function route_maintenance(network, source, destination)
-%             disp(['Performing route maintenance at Node ', num2str(source)]);
-            route_discovery(network, source, destination);
+        function rp = route_maintenance(network, source, destination)
+            rp = route_discovery(network, source, destination);
             %.......
         end
         

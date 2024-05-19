@@ -12,7 +12,7 @@ function [shortest_distance, path] = BroadCasting(nodes, source, destination)
         if u == destination
             break;
         end
-        neighbors = nodes(u).neighbor;
+        neighbors = nodes(u).neighbor; 
         for i = 1 : length(neighbors)
             v = neighbors(i);
             w = nodes(u).distance(i);
@@ -20,7 +20,7 @@ function [shortest_distance, path] = BroadCasting(nodes, source, destination)
             if nodes(v).E_initial <= nodes(v).critical_level
                 continue;
             end
-            if dist(u) + w < dist(v) && nodes(v).status == 0
+            if dist(u) + w < dist(v)
                 dist(v) = dist(u) + w;
                 prev(v) = u;
                 pq.insert(v, dist(v));
