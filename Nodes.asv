@@ -7,22 +7,15 @@ classdef Nodes < handle
         E_intial = 2;
         E_tx;
         E_rx;
-<<<<<<< HEAD
-        P_leach;
-        T_leach;
-=======
->>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
-        Elec = 50 * 10^-9; % J/bit
-        Eamp = 0.013 * 10^-12; %J/bit/m^4
-        Efriis = 10 * 10^-12; % J/bit/m^2
+        Packet_Size = 500; %bytes
+        Broadcast_Size = 10;
+        Elec = 50 * 0.000000001; % J/bit
+        Eamp = 100 * 0.000000000001; %J
+        Efs = 10 * 0.000000000001; % J/bit/m^2
+        Emp = 0.0013 * 0.000000000001; %J/bit/m^4
         d; %distance
-        d0 = 86.1424; %thresh holdq
-<<<<<<< HEAD
-        B = 1024 * 8 * 400; 
-=======
-        B = 1024 * 8; %bit 
-        B1 = 10 * 8;
->>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
+        d0; %thresh hold
+        B = 500 * 1024; %bit 
         neighbor ;
         ID;
         parent;
@@ -37,9 +30,9 @@ classdef Nodes < handle
         function change_energy_Tx(obj)
             for i = 1:length(obj.neighbor)
                 if(obj.d(i) < obj.d0)
-                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efriis * (obj.d(i)^2));
+                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.d(i)^2));
                 else
-                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Eamp * (obj.d(i)^4));
+                     obj.E_tx(i) = (obj.B * obj.Elec) + (obj.B * obj.Efs * (obj.d(i)^4));
                 end
             end
         end
@@ -71,16 +64,12 @@ classdef Nodes < handle
                     end
             update_LinkQuality(obj);
            end      
-<<<<<<< HEAD
-        end       
-=======
         end
     
         function Broadcast_energy(obj)
-            energy_broadcast = (obj.B1 * obj.Elec) + (obj.B1 * obj.Eamp * (obj.R^2));
-             obj.E_intial = obj.E_intial - energy_broadcast; 
+            energy_broadcast = (obj.B * obj.Elec) + (obj.B * obj.Eamp * (obj.R^2));
+             obj.E_intial = obj.E_intial;
         end
         
->>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
     end
 end

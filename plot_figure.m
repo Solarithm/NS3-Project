@@ -5,11 +5,19 @@ function plot_figure(s, t, x, y, MST, link,high_energy_threshold,medium_energy_t
         
         G = graph(s,t);
         
+<<<<<<< HEAD
         figure = plot(G,'XData',x,'YData',y, 'EdgeLabel', link);        
             for i = 1:size(node,2)
         if(i == 1)
             plot_node = plot(x(i), y(i), 'o', 'LineWidth', 2, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'b', 'MarkerSize', 13);        
         elseif (node(i).E_intial > high_energy_threshold)
+=======
+        figure = plot(G,'XData',x,'YData',y, 'EdgeLabel', link);
+        
+        
+            for i = 1:size(node,2)
+        if (node(i).E_intial > high_energy_threshold)
+>>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
             % Node có n?ng l??ng cao: màu xanh
             plot_node = plot(x(i), y(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'g', 'MarkerSize', 10);
         elseif (node(i).E_intial <= high_energy_threshold && node(i).E_intial > medium_energy_threshold)

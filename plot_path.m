@@ -9,9 +9,13 @@ function plot_path(s,t, x, y,sensor_node,high_energy_threshold,medium_energy_thr
         
         
             for i = 1:size(node,2)
+<<<<<<< HEAD
         if(i == 1)
             plot_node = plot(x(i), y(i), 'o', 'LineWidth', 2, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'b', 'MarkerSize', 13);        
         elseif (node(i).E_intial > high_energy_threshold)
+=======
+        if (node(i).E_intial > high_energy_threshold)
+>>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
             % Node có n?ng l??ng cao: màu xanh
             plot_node = plot(x(i), y(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'g', 'MarkerSize', 10);
         elseif (node(i).E_intial <= high_energy_threshold && node(i).E_intial > medium_energy_threshold)
@@ -21,7 +25,11 @@ function plot_path(s,t, x, y,sensor_node,high_energy_threshold,medium_energy_thr
             % Node có n?ng l??ng th?p: màu ??
             plot_node = plot(x(i), y(i), 'o', 'LineWidth', 1.5, 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'r', 'MarkerSize', 10);
         end
+<<<<<<< HEAD
     end
+=======
+            end  
+>>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
     
                 %from sensor_node to source node
         while(node(sensor_node).parent ~= 0)
@@ -33,8 +41,13 @@ function plot_path(s,t, x, y,sensor_node,high_energy_threshold,medium_energy_thr
         h.LineStyle = '-';
         h.LineWidth = 2;
         h.Color = [0.9290 0.6940 0.3];
+<<<<<<< HEAD
         pause(0.3);
         sensor_node = node(sensor_node).parent;   
 %         pause(0.8);
+=======
+        pause(0.2);
+        sensor_node = node(sensor_node).parent;    
+>>>>>>> b6eb5148cb43f431b9ebacffd068f6ee182fa942
         end   
 end
